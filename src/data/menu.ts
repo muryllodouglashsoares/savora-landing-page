@@ -6,6 +6,18 @@ import risoto from "@/assets/dish-risoto.jpg";
 import sobremesa from "@/assets/dish-sobremesa.jpg";
 import drink from "@/assets/dish-drink.jpg";
 
+// Fotos adicionais (uma para cada prato que antes repetia a imagem de outro
+// prato da mesma categoria), escolhidas para combinar com o prato real.
+const carpaccio = "https://images.unsplash.com/photo-1508471349025-ca3e278cf5e2?w=900&auto=format&fit=crop&q=80";
+const tagliatelle = "https://images.unsplash.com/photo-1755677617146-9d69ea16b199?w=900&auto=format&fit=crop&q=80";
+const cordeiro = "https://images.unsplash.com/photo-1507150370052-1e798df49f29?w=900&auto=format&fit=crop&q=80";
+const bacalhau = "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=900&auto=format&fit=crop&q=80";
+const risotoFunghi = "https://images.unsplash.com/photo-1723476662512-6abc972f1167?w=900&auto=format&fit=crop&q=80";
+const tiramisu = "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=900&auto=format&fit=crop&q=80";
+const spritz = "https://images.unsplash.com/photo-1578467759626-f94129ea94a4?w=900&auto=format&fit=crop&q=80";
+const vinho = "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=900&auto=format&fit=crop&q=80";
+const kombucha = "https://images.unsplash.com/photo-1573812914274-226dc19fbe17?w=900&auto=format&fit=crop&q=80";
+
 export type MenuCategory =
   | "Entradas"
   | "Massas"
@@ -43,6 +55,7 @@ export const menuCategories: MenuCategory[] = [
 ];
 
 export const menuItems: MenuItem[] = [
+  // ---------- Entradas ----------
   {
     id: "burrata",
     name: "Burrata di Puglia",
@@ -60,8 +73,20 @@ export const menuItems: MenuItem[] = [
     price: 92,
     ingredients: ["Wagyu", "Alcaparras", "Trufa negra", "Parmesão"],
     category: "Entradas",
-    image: entrada,
+    image: carpaccio,
   },
+  {
+    id: "tartar-atum",
+    name: "Tartar de Atum Amarelo",
+    description: "Atum cortado na hora, abacate, gergelim tostado e molho ponzu cítrico.",
+    price: 78,
+    ingredients: ["Atum amarelo", "Abacate", "Gergelim", "Ponzu"],
+    tag: "Novo",
+    category: "Entradas",
+    image: peixe,
+  },
+
+  // ---------- Massas ----------
   {
     id: "ravioli",
     name: "Ravioli di Salvia",
@@ -79,8 +104,20 @@ export const menuItems: MenuItem[] = [
     price: 118,
     ingredients: ["Tagliatelle", "Trufa negra", "Parmesão", "Creme de leite fresco"],
     category: "Massas",
-    image: massa,
+    image: tagliatelle,
   },
+  {
+    id: "linguine-vongole",
+    name: "Linguine alle Vongole",
+    description: "Linguine com berbigões frescos, alho, vinho branco e salsinha.",
+    price: 104,
+    ingredients: ["Linguine", "Berbigões", "Alho", "Vinho branco"],
+    tag: "Novo",
+    category: "Massas",
+    image: bacalhau,
+  },
+
+  // ---------- Carnes ----------
   {
     id: "ancho",
     name: "Ancho Maturado 45 dias",
@@ -98,8 +135,20 @@ export const menuItems: MenuItem[] = [
     price: 154,
     ingredients: ["Cordeiro", "Alecrim", "Aipo", "Alho confitado"],
     category: "Carnes",
-    image: carne,
+    image: cordeiro,
   },
+  {
+    id: "costela",
+    name: "Costela Bovina Braseada 12h",
+    description: "Costela cozida lentamente, glacê de vinho do porto e polenta cremosa.",
+    price: 148,
+    ingredients: ["Costela bovina", "Vinho do porto", "Polenta", "Tomilho"],
+    tag: "Novo",
+    category: "Carnes",
+    image: carpaccio,
+  },
+
+  // ---------- Peixes ----------
   {
     id: "robalo",
     name: "Robalo em Beurre Blanc",
@@ -117,8 +166,20 @@ export const menuItems: MenuItem[] = [
     price: 158,
     ingredients: ["Bacalhau", "Azeite", "Azeitona preta", "Batata"],
     category: "Peixes",
-    image: peixe,
+    image: bacalhau,
   },
+  {
+    id: "camarao-grelhado",
+    name: "Camarão Grelhado ao Limão",
+    description: "Camarões grandes grelhados na brasa com manteiga de limão siciliano.",
+    price: 136,
+    ingredients: ["Camarão", "Limão siciliano", "Manteiga", "Páprica defumada"],
+    tag: "Novo",
+    category: "Peixes",
+    image: carne,
+  },
+
+  // ---------- Risotos ----------
   {
     id: "risoto-acafrao",
     name: "Risoto de Açafrão",
@@ -136,8 +197,20 @@ export const menuItems: MenuItem[] = [
     price: 112,
     ingredients: ["Funghi porcini", "Shitake", "Manteiga trufada", "Salsinha"],
     category: "Risotos",
-    image: risoto,
+    image: risotoFunghi,
   },
+  {
+    id: "risoto-camarao",
+    name: "Risoto de Camarão e Limão Siciliano",
+    description: "Arroz carnaroli, camarões salteados e toque cítrico de limão siciliano.",
+    price: 128,
+    ingredients: ["Carnaroli", "Camarão", "Limão siciliano", "Manteiga"],
+    tag: "Novo",
+    category: "Risotos",
+    image: bacalhau,
+  },
+
+  // ---------- Sobremesas ----------
   {
     id: "chocolate",
     name: "Ouro Negro",
@@ -155,8 +228,20 @@ export const menuItems: MenuItem[] = [
     price: 48,
     ingredients: ["Mascarpone", "Espresso", "Cacau", "Savoiardi"],
     category: "Sobremesas",
-    image: sobremesa,
+    image: tiramisu,
   },
+  {
+    id: "panna-cotta",
+    name: "Panna Cotta de Baunilha",
+    description: "Panna cotta sedosa de baunilha de Madagascar com calda de frutas vermelhas.",
+    price: 46,
+    ingredients: ["Creme de leite", "Baunilha", "Frutas vermelhas", "Gelatina"],
+    tag: "Novo",
+    category: "Sobremesas",
+    image: carpaccio,
+  },
+
+  // ---------- Drinks ----------
   {
     id: "negroni",
     name: "Negroni Defumado",
@@ -174,8 +259,20 @@ export const menuItems: MenuItem[] = [
     price: 42,
     ingredients: ["Prosecco", "Pêssego", "Tônica", "Hortelã"],
     category: "Drinks",
-    image: drink,
+    image: spritz,
   },
+  {
+    id: "mojito-frutas",
+    name: "Mojito de Frutas Vermelhas",
+    description: "Rum branco, frutas vermelhas frescas, hortelã e água com gás.",
+    price: 44,
+    ingredients: ["Rum branco", "Frutas vermelhas", "Hortelã", "Limão"],
+    tag: "Novo",
+    category: "Drinks",
+    image: vinho,
+  },
+
+  // ---------- Bebidas ----------
   {
     id: "vinho",
     name: "Seleção do Sommelier",
@@ -183,7 +280,7 @@ export const menuItems: MenuItem[] = [
     price: 38,
     ingredients: ["Rótulos rotativos", "Harmonização inclusa"],
     category: "Bebidas",
-    image: drink,
+    image: vinho,
   },
   {
     id: "kombucha",
@@ -193,8 +290,20 @@ export const menuItems: MenuItem[] = [
     ingredients: ["Chá verde", "Gengibre", "Capim-limão", "Mel"],
     tag: "Sem álcool",
     category: "Bebidas",
-    image: drink,
+    image: kombucha,
   },
+  {
+    id: "suco-natural",
+    name: "Suco Natural da Estação",
+    description: "Suco 100% natural preparado na hora com frutas da estação.",
+    price: 22,
+    ingredients: ["Frutas da estação", "Água de coco"],
+    tag: "Novo",
+    category: "Bebidas",
+    image: spritz,
+  },
+
+  // ---------- Menu Executivo ----------
   {
     id: "exec-almoco",
     name: "Menu Executivo do Chef",
@@ -216,6 +325,18 @@ export const menuItems: MenuItem[] = [
     image: entrada,
   },
   {
+    id: "exec-peixe",
+    name: "Executivo Peixe do Dia",
+    description: "Peixe fresco do dia, acompanhamento e sobremesa, servido no almoço.",
+    price: 124,
+    ingredients: ["Peixe do dia", "Legumes salteados", "Sobremesa do dia"],
+    tag: "Novo",
+    category: "Menu Executivo",
+    image: peixe,
+  },
+
+  // ---------- Menu Infantil ----------
+  {
     id: "kids-massa",
     name: "Massinha do Chef",
     description: "Talharim ao molho de tomate fresco com queijo gratinado.",
@@ -233,5 +354,15 @@ export const menuItems: MenuItem[] = [
     ingredients: ["Frango", "Panko", "Batata", "Manteiga"],
     category: "Menu Infantil",
     image: carne,
+  },
+  {
+    id: "kids-sanduiche",
+    name: "Sanduichinho do Chef",
+    description: "Pão brioche, queijo derretido e batatas rústicas ao forno.",
+    price: 48,
+    ingredients: ["Pão brioche", "Queijo", "Batata rústica"],
+    tag: "Novo",
+    category: "Menu Infantil",
+    image: risotoFunghi,
   },
 ];
