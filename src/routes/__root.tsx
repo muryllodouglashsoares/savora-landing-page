@@ -11,6 +11,9 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+// Imported (not a static "/assets/..." string) so the preload href always
+// matches Vite's hashed build output for this file.
+import heroDishUrl from "../assets/hero-dish.webp";
 
 function NotFoundComponent() {
   return (
@@ -98,6 +101,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap",
+      },
+      // Only the Hero's main dish photo is preloaded — it's the LCP element.
+      // Every other image (ingredient cutouts, menu, gallery) stays on
+      // normal/lazy loading so it never competes for bandwidth with this one.
+      {
+        rel: "preload",
+        as: "image",
+        href: heroDishUrl,
+        type: "image/webp",
+        fetchPriority: "high",
       },
       { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
       { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },

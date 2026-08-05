@@ -1,480 +1,85 @@
-# Savora Culinary Canvas
+# Savora — Landing Page
 
-PROMPT — LOVABLE
+Landing page premium para o **Savora**, um restaurante contemporâneo fictício. Site institucional com cardápio digital, seções de apresentação do restaurante e formulário de reservas — construído como peça de portfólio, com foco em animação de alto padrão e performance.
 
-Você é um desenvolvedor Front-end Sênior e especialista em UI/UX, animações para Web, React, TypeScript, Tailwind CSS e landing pages premiadas no Awwwards.
+## Stack
 
-Sua missão é desenvolver uma Landing Page Premium para um restaurante contemporâneo, utilizando como base o design existente no projeto do Figma.
+- **React 19** + **TypeScript**
+- **TanStack Start** (SSR) + **TanStack Router**
+- **Vite**
+- **Tailwind CSS 4**
+- **Motion** (Framer Motion) para animações
+- **shadcn/ui** + **Radix UI** para primitivos de interface
+- **React Hook Form** + **Zod** para o formulário de reservas
+- **ESLint** + **Prettier**
 
-Não altere a identidade visual principal, mas eleve significativamente a qualidade técnica e visual da implementação.
+## Como rodar
 
-O resultado deve parecer desenvolvido por uma agência de alto padrão.
-
-Objetivo
-
-Criar uma Landing Page moderna para um restaurante fictício chamado Savora, integrada a um Cardápio Digital, preparada para futuras integrações (Google Maps API, formulário de reservas e WhatsApp), mantendo foco em apresentação institucional e conversão.
-
-Não criar um sistema administrativo.
-
-Não criar um sistema de delivery.
-
-Trata-se de uma Landing Page Premium.
-
-Stack
-
-Utilizar:
-
- React
-
- TypeScript
-
- Vite
-
- Tailwind CSS
-
- Framer Motion
-
- Lucide Icons
-
- React Intersection Observer
-
- React Hook Form
-
- shadcn/ui (quando fizer sentido)
-
-Código extremamente organizado.
-
-Componentes reutilizáveis.
-
-Separação por pastas.
-
-Boas práticas.
-
-Hero Section
-
-A Hero Section deve ser completamente reconstruída.
-
-O efeito atual dos ingredientes organizados ao redor do prato NÃO é o efeito desejado.
-
-Quero uma Hero extremamente cinematográfica.
-
-Inspirada em campanhas premium da Apple, McDonald's, Burger King e Coca-Cola.
-
-IMPORTANTE
-
-Não quero uma composição estática.
-
-Quero uma composição dinâmica.
-
-Os alimentos devem parecer literalmente voando.
-
-Efeito desejado
-
-Criar uma composição semelhante a uma fotografia congelada durante o preparo do prato.
-
-Os ingredientes devem parecer lançados ao ar.
-
-Exemplos:
-
- folhas
-
- parmesão ralado
-
- tomate
-
- ervas
-
- alecrim
-
- especiarias
-
- gotas de azeite
-
- vapor
-
- pequenos grãos de sal
-
- pimenta
-
- partículas
-
-Tudo deve parecer suspenso.
-
-Nada deve formar um círculo ao redor do prato.
-
-Profundidade
-
-Criar várias camadas.
-
-Alguns elementos devem ficar:
-
- extremamente próximos da câmera
-
- parcialmente cortados pela tela
-
- atrás do prato
-
- entre o prato e o usuário
-
-Criar sensação tridimensional.
-
-Movimento
-
-Adicionar animações suaves utilizando Framer Motion.
-
-Cada ingrediente deve possuir pequenas animações independentes.
-
-Exemplos:
-
-Floating
-
-Slow Rotation
-
-Parallax
-
-Mouse Follow
-
-Depth Movement
-
-Hover Motion
-
-Scale
-
-Blur
-
-Fade
-
-Levitação contínua
-
-Oscilação extremamente leve
-
-Movimentos nunca sincronizados.
-
-Cada ingrediente deve possuir tempos diferentes.
-
-Hero extremamente viva
-
-Adicionar:
-
-partículas
-
-fumaça suave
-
-pequenas folhas
-
-movimento do vapor
-
-reflexos
-
-glow extremamente discreto
-
-luz cinematográfica
-
-Mouse Interaction
-
-Mover levemente os ingredientes conforme o mouse.
-
-Criar sensação de profundidade.
-
-Não exagerar.
-
-Scroll
-
-Durante o scroll:
-
-Os ingredientes devem mover-se em velocidades diferentes.
-
-Criar efeito Parallax.
-
-O prato deve permanecer como ponto focal.
-
-Estrutura
-
-Navbar
-
-Navbar transparente.
-
-Ao descer a página:
-
-background com blur
-
-efeito glass
-
-transição suave
-
-Hero
-
-Prato principal.
-
-Ingredientes voando.
-
-Headline.
-
-Subheadline.
-
-Botões.
-
-Indicadores.
-
-Cardápio Digital
-
-Aparece logo após a Hero.
-
-Antes da seção "Sobre".
-
-Criar um cardápio premium.
-
-Categorias:
-
-Entradas
-
-Massas
-
-Carnes
-
-Peixes
-
-Risotos
-
-Sobremesas
-
-Drinks
-
-Bebidas
-
-Menu Executivo
-
-Menu Infantil
-
-Cada card deve possuir:
-
-imagem
-
-nome
-
-descrição
-
-preço
-
-ingredientes
-
-tag
-
-hover elegante
-
-leve animação
-
-microinterações
-
-Criar filtros animados por categoria.
-
-Transições suaves.
-
-Sobre
-
-História.
-
-Missão.
-
-Chef.
-
-Especialidades
-
-Cards premium.
-
-Hover sofisticado.
-
-Ingredientes
-
-Cards.
-
-Ícones.
-
-Animações discretas.
-
-Galeria
-
-Grid moderno.
-
-Hover.
-
-Zoom.
-
-Fade.
-
-Avaliações
-
-Cards.
-
-Animações.
-
-Reservas
-
-Formulário moderno.
-
-Validação.
-
-Localização
-
-Preparar componente para futura integração da Google Maps API.
-
-Criar placeholder elegante.
-
-Mostrar:
-
-endereço
-
-telefone
-
-horário
-
-botão "Como Chegar"
-
-FAQ
-
-Accordion elegante.
-
-CTA Final
-
-Grande imagem.
-
-Headline.
-
-Botão.
-
-Footer
-
-Moderno.
-
-Microinterações
-
-Adicionar microinterações em praticamente todos os componentes.
-
-Botões.
-
-Cards.
-
-Navbar.
-
-Ícones.
-
-Links.
-
-Inputs.
-
-Imagens.
-
-Tabs.
-
-Accordion.
-
-Tudo deve parecer vivo.
-
-Performance
-
-Lazy Loading
-
-Code Splitting
-
-Componentes reutilizáveis
-
-Otimização de imagens
-
-Boas práticas
-
-Responsividade
-
-Desktop
-
-Notebook
-
-Tablet
-
-Mobile
-
-Nenhuma seção deve quebrar.
-
-Acessibilidade
-
-Contraste adequado.
-
-Estados de foco.
-
-ARIA Labels.
-
-Boa navegação por teclado.
-
-SEO
-
-Meta Tags
-
-Open Graph
-
-Structured Data
-
-Boa hierarquia de Heading.
-
-Código
-
-Criar arquitetura organizada.
-
-Componentes pequenos.
-
-Evitar arquivos gigantes.
-
-Comentários apenas quando realmente necessários.
-
-Utilizar boas práticas de React.
-
-Objetivo Visual
-
-O usuário deve abrir a página e imediatamente pensar:
-
-"Isso parece um comercial de uma marca premium."
-
-A Hero deve transmitir a sensação de que um chef acabou de finalizar um prato e todos os ingredientes ficaram congelados no ar, em pleno movimento.
-
-Não quero um prato decorado.
-
-Quero uma cena cinematográfica.
-
-Inspiração para a Hero
-
-A Hero deve se inspirar em propagandas premium de alimentos e bebidas.
-
-Os ingredientes devem parecer possuir peso, profundidade e movimento real.
-
-A composição deve lembrar um frame de um vídeo em câmera lenta congelado no tempo.
-
-A sensação deve ser de uma cena tridimensional, preparada para animações sofisticadas com Framer Motion.
-
-Qualidade Esperada
-
-Este projeto faz parte de um portfólio profissional.
-
-A implementação deve ter qualidade suficiente para impressionar recrutadores, clientes e desenvolvedores experientes.
-
-Cada detalhe deve demonstrar cuidado com UI, UX, animações, organização do código e performance.
-
-O resultado final deve se aproximar do padrão visual encontrado em sites premiados no Awwwards, com uma experiência fluida, elegante e memorável, sem perder o objetivo principal: apresentar um restaurante de forma sofisticada por meio de uma Landing Page integrada a um Cardápio Digital, preparada para futuras evoluções, mas mantendo excelente desempenho e foco em conversão. Considere para isso o desing do figma:https://hook-sleeve-48987318.figma.site
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/20db03a4-7870-429f-9a4b-359349a93741).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+Requer Node.js e npm (ou Bun, já que o projeto tem `bun.lock`).
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+npm install
 npm run dev
 ```
+
+Outros scripts disponíveis:
+
+```sh
+npm run build       # build de produção
+npm run build:dev   # build em modo development
+npm run preview      # serve o build de produção localmente
+npm run lint          # ESLint
+npm run format        # Prettier (--write)
+```
+
+## Estrutura do projeto
+
+```
+src/
+├── assets/            # imagens (pratos, ingredientes, galeria) — .webp otimizado
+├── components/
+│   ├── common/         # componentes compartilhados (ex.: MagneticLink)
+│   ├── hero/            # Hero e a animação de montagem do prato (ver abaixo)
+│   ├── layout/          # Navbar, Footer
+│   ├── menu/             # Cardápio digital (cards, filtros por categoria)
+│   ├── sections/         # Sobre, Especialidades, Ingredientes, Galeria, Avaliações,
+│   │                      # Reservas, Localização, FAQ, CTA final
+│   └── ui/                # componentes shadcn/ui (button, dialog, accordion, etc.)
+├── data/                # dados do cardápio (menu.ts)
+├── hooks/               # hooks utilitários (ex.: use-mobile)
+├── lib/                  # sistema de motion compartilhado, utils, error reporting
+└── routes/               # rotas do TanStack Router (__root, index)
+```
+
+## A Hero Section
+
+A Hero simula um chef montando o prato: os ingredientes caem sobre o prato um a um, com leve rotação e um pequeno *bounce* ao pousar, seguidos por um brilho final e uma polvilhada de tempero. A animação roda **uma única vez**, ao carregar a página — nunca se repete no scroll — e depois fica completamente parada.
+
+A lógica é dividida em componentes pequenos e reutilizáveis dentro de `src/components/hero/`:
+
+| Componente | Responsabilidade |
+|---|---|
+| `Hero.tsx` | Orquestra a seção: copy, botões, parallax de scroll e tilt do mouse. |
+| `PlateAnimation.tsx` | Sequencia a montagem do prato (prato base → ingredientes → aproximação de câmera → brilho → partículas). |
+| `Ingredient.tsx` | Uma peça caindo: queda, rotação, bounce e acomodação — sem loops. |
+| `ShineEffect.tsx` | Brilho único que passa sobre o prato ao final da montagem. |
+| `SeasoningParticles.tsx` | Rajada curta e finita de partículas de tempero. |
+
+**Decisões de performance** (a versão anterior usava dezenas de animações em loop infinito e filtros de blur pesados, o que pesava bastante em CPU/GPU):
+
+- Anima apenas `transform` e `opacity` — nunca propriedades que causam repaint.
+- Nenhuma animação usa `repeat: Infinity`; tudo roda uma vez e para.
+- `will-change` é aplicado só enquanto a peça está caindo e removido assim que ela se acomoda.
+- Sem `filter: blur()` pesado nas peças; sombras leves e pontuais.
+- Respeita `prefers-reduced-motion`: quando ativado, o prato já aparece pronto, sem nenhuma animação.
+- No mobile, a sequência usa menos peças (agrupadas), timeline mais rápida e menos partículas.
+- Apenas a imagem principal do prato (`hero-dish.webp`) é pré-carregada (`<link rel="preload">` no `__root.tsx`); as demais imagens carregam sob demanda (`loading="lazy"`).
+
+## Cardápio digital
+
+Os itens do cardápio ficam em `src/data/menu.ts`, organizados por categoria (Entradas, Massas, Carnes, Peixes, Risotos, Sobremesas, Drinks, Bebidas, Menu Executivo, Menu Infantil). Cada item tem imagem, nome, descrição, preço, ingredientes e uma tag opcional.
+
+## Notas
+
+- Este projeto foi iniciado no [Lovable](https://lovable.dev) e depois evoluído manualmente.
+- Preparado para futuras integrações (Google Maps na seção de Localização, envio de reservas, WhatsApp), atualmente com placeholders elegantes.
