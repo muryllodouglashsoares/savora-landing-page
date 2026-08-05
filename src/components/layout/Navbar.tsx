@@ -62,9 +62,17 @@ export function Navbar() {
       >
         <a
           href="#hero"
-          className="font-display text-2xl tracking-[0.3em] text-foreground transition-colors hover:text-gold"
+          className="group flex items-center gap-3 text-foreground transition-colors hover:text-gold"
         >
-          SAVORA
+          <img
+            src="/logo.svg"
+            alt=""
+            aria-hidden="true"
+            width={30}
+            height={30}
+            className="size-[30px] rounded-[7px] transition-transform duration-500 group-hover:scale-105"
+          />
+          <span className="font-display text-2xl tracking-[0.3em]">SAVORA</span>
         </a>
 
         <ul className="hidden items-center gap-9 lg:flex">
