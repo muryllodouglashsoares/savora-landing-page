@@ -1,0 +1,29 @@
+<svg width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2a2420"/>
+      <stop offset="100%" stop-color="#14110f"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f3e0b6"/>
+      <stop offset="50%" stop-color="#cda86a"/>
+      <stop offset="100%" stop-color="#b8562e"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="256" height="256" rx="56" fill="url(#bg)"/>
+
+  <!-- monogram S, drawn as a single flowing ribbon (echoes a fork's twist
+       and a flame's shape at once), anchored by a small ember dot -->
+  <path
+    d="M 168 84
+       C 168 66 150 56 128 56
+       C 102 56 84 70 84 90
+       C 84 112 104 120 128 126
+       C 154 132 176 141 176 165
+       C 176 187 156 200 128 200
+       C 104 200 86 189 84 170"
+    fill="none" stroke="url(#gold)" stroke-width="18" stroke-linecap="round"/>
+
+  <circle cx="128" cy="128" r="5.5" fill="#14110f"/>
+</svg>

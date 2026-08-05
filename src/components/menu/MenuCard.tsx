@@ -1,6 +1,8 @@
+import { useMemo } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import type { MenuItem } from "@/data/menu";
 import { SPRING, usePrefersReducedMotion } from "@/lib/motion";
+import { seeded, range } from "@/lib/motion";
 
 const currency = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -8,8 +10,40 @@ const currency = new Intl.NumberFormat("pt-BR", {
   maximumFractionDigits: 0,
 });
 
+/** Deterministic string → int hash, so the same dish always gets the same treatment. */
+function hashId(id: string) {
+  let h = 0;
+  for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+/**
+ * The photo library has far fewer shots than menu items, so several dishes
+ * in the same category share a base photo. Rather than show the identical
+ * frame twice in one grid, each card gets its own deterministic crop, zoom
+ * and mirror — same source image, a different-looking photo per dish.
+ */
+function usePhotoTreatment(id: string) {
+  return useMemo(() => {
+    const rand = seeded(hashId(id));
+    const posX = Math.round(range(rand, 25, 75));
+    const posY = Math.round(range(rand, 25, 75));
+    const zoom = Number(range(rand, 1.08, 1.32).toFixed(2));
+    const flip = rand() > 0.5 ? -1 : 1;
+    const hue = Math.round(range(rand, -8, 8));
+    const saturate = Number(range(rand, 0.94, 1.1).toFixed(2));
+    return {
+      objectPosition: `${posX}% ${posY}%`,
+      baseScale: zoom,
+      flip,
+      filter: `hue-rotate(${hue}deg) saturate(${saturate})`,
+    };
+  }, [id]);
+}
+
 export function MenuCard({ item, index }: { item: MenuItem; index: number }) {
   const reduceMotion = usePrefersReducedMotion();
+  const photo = usePhotoTreatment(item.id);
 
   // A light 3D tilt toward the cursor, plus the image drifting opposite the
   // tilt for a subtle parallax — the card behaves like a held object, not a
@@ -59,14 +93,21 @@ export function MenuCard({ item, index }: { item: MenuItem; index: number }) {
         style={{ background: glow }}
       />
       <div className="relative aspect-[4/3] overflow-hidden">
-        <img
+        <motion.img
           src={item.image}
           alt={item.name}
           loading="lazy"
           decoding="async"
           width={800}
           height={600}
-          className="size-full object-cover transition-transform duration-[1.4s] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-110"
+          style={{
+            objectPosition: photo.objectPosition,
+            filter: photo.filter,
+          }}
+          animate={{ scale: photo.baseScale, scaleX: photo.flip }}
+          whileHover={reduceMotion ? undefined : { scale: photo.baseScale * 1.06 }}
+          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+          className="size-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         {item.tag ? (

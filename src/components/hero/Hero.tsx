@@ -2,14 +2,14 @@ import { motion, useMotionValue, useScroll, useSpring, useTransform } from "moti
 import { useCallback, useRef } from "react";
 import { ArrowDown, UtensilsCrossed, CalendarCheck } from "lucide-react";
 
-import dish from "@/assets/hero-dish.png";
-import basil from "@/assets/ing-basil.png";
-import tomato from "@/assets/ing-tomato.png";
-import rosemary from "@/assets/ing-rosemary.png";
-import parmesan from "@/assets/ing-parmesan.png";
-import oil from "@/assets/ing-oil.png";
-import pepper from "@/assets/ing-pepper.png";
-import garlic from "@/assets/ing-garlic.png";
+import dish from "@/assets/hero-dish.webp";
+import basil from "@/assets/ing-basil.webp";
+import tomato from "@/assets/ing-tomato.webp";
+import rosemary from "@/assets/ing-rosemary.webp";
+import parmesan from "@/assets/ing-parmesan.webp";
+import oil from "@/assets/ing-oil.webp";
+import pepper from "@/assets/ing-pepper.webp";
+import garlic from "@/assets/ing-garlic.webp";
 
 import { FloatingIngredient, type Ingredient } from "./FloatingIngredient";
 import { Particles, Steam } from "./Atmosphere";
