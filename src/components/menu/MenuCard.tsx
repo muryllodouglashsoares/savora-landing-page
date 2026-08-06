@@ -1,8 +1,7 @@
-import { useMemo } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { memo, useMemo } from "react";
+import { motion } from "motion/react";
 import type { MenuItem } from "@/data/menu";
-import { SPRING, usePrefersReducedMotion } from "@/lib/motion";
-import { seeded, range } from "@/lib/motion";
+import { EASE, seeded, range } from "@/lib/motion";
 
 const currency = new Intl.NumberFormat("pt-BR", {
   style: "currency",
@@ -41,74 +40,60 @@ function usePhotoTreatment(id: string) {
   }, [id]);
 }
 
-export function MenuCard({ item, index }: { item: MenuItem; index: number }) {
-  const reduceMotion = usePrefersReducedMotion();
+/**
+ * Hover/tilt effect: antes disso rodava em JS puro — duas springs do Framer
+ * Motion mais um glow recalculado a cada pixel de `pointermove`, disparando
+ * um re-render por frame enquanto o mouse estava sobre o card. Com vários
+ * cards na tela isso é o tipo de coisa que trava scroll em notebooks/celulares
+ * médios. Trocado por `hover:` puro em CSS: mesma sensação de profundidade,
+ * porém rodando no compositor da GPU, sem JS a cada movimento do mouse.
+ *
+ * Detalhe importante: o crop/zoom/espelhamento por prato (`photo.baseScale`,
+ * `photo.flip`) precisa ficar num elemento separado do zoom de hover. Um
+ * `style={{ transform }}` inline no mesmo elemento sempre vence a classe
+ * `group-hover:scale-*` (estilo inline tem prioridade sobre classe, mesmo em
+ * :hover), então o zoom ao passar o mouse simplesmente não acontecia antes.
+ */
+function MenuCardImpl({ item, index }: { item: MenuItem; index: number }) {
   const photo = usePhotoTreatment(item.id);
-
-  // A light 3D tilt toward the cursor, plus the image drifting opposite the
-  // tilt for a subtle parallax — the card behaves like a held object, not a
-  // flat sticker.
-  const rotateX = useSpring(0, SPRING.medium);
-  const rotateY = useSpring(0, SPRING.medium);
-  const glowX = useMotionValue(50);
-  const glowY = useMotionValue(50);
-  const glow = useTransform(
-    [glowX, glowY],
-    ([gx, gy]) =>
-      `radial-gradient(280px circle at ${gx}% ${gy}%, color-mix(in oklab, var(--gold) 16%, transparent), transparent 70%)`,
-  );
-
-  const handleMove = (event: React.PointerEvent<HTMLElement>) => {
-    if (reduceMotion) return;
-    const rect = event.currentTarget.getBoundingClientRect();
-    const relX = (event.clientX - rect.left) / rect.width - 0.5;
-    const relY = (event.clientY - rect.top) / rect.height - 0.5;
-    rotateY.set(relX * 8);
-    rotateX.set(-relY * 8);
-    glowX.set((relX + 0.5) * 100);
-    glowY.set((relY + 0.5) * 100);
-  };
-
-  const handleLeave = () => {
-    rotateX.set(0);
-    rotateY.set(0);
-  };
 
   return (
     <motion.article
-      layout
-      initial={{ opacity: 0, y: 34, scale: 0.96 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, y: -20, scale: 0.97 }}
-      transition={{ duration: 0.6, delay: index * 0.06, ...SPRING.medium }}
-      whileHover={reduceMotion ? { y: 0 } : { y: -8 }}
-      onPointerMove={handleMove}
-      onPointerLeave={handleLeave}
-      style={{ rotateX, rotateY, transformPerspective: 900 }}
-      className="card-luxe group relative overflow-hidden rounded-xl hover:border-gold/50"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, delay: Math.min(index, 5) * 0.05, ease: EASE.luxe }}
+      className="card-luxe group relative overflow-hidden rounded-xl transition-[transform,border-color] duration-500 will-change-transform hover:-translate-y-2 hover:border-gold/50"
     >
-      <motion.div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{ background: glow }}
-      />
       <div className="relative aspect-[4/3] overflow-hidden">
-        <motion.img
-          src={item.image}
-          alt={item.name}
-          loading="lazy"
-          decoding="async"
-          width={800}
-          height={600}
+        {/* Crop/zoom/espelhamento fixos do prato — calculados uma vez, sem custo de runtime. */}
+        <div
+          className="absolute inset-0"
+          style={{ transform: `scale(${photo.baseScale}) scaleX(${photo.flip})` }}
+        >
+          {/* Zoom de hover, isolado num elemento próprio para não colidir com o transform acima. */}
+          <img
+            src={item.image}
+            alt={item.name}
+            loading="lazy"
+            decoding="async"
+            width={640}
+            height={480}
+            style={{ objectPosition: photo.objectPosition, filter: photo.filter }}
+            className="size-full object-cover transition-transform duration-[1400ms] ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          />
+        </div>
+
+        {/* Brilho dourado sutil no hover — puramente CSS, sem rastrear o cursor. */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
           style={{
-            objectPosition: photo.objectPosition,
-            filter: photo.filter,
+            background:
+              "radial-gradient(60% 60% at 50% 40%, color-mix(in oklab, var(--gold) 16%, transparent), transparent 70%)",
           }}
-          animate={{ scale: photo.baseScale, scaleX: photo.flip }}
-          whileHover={reduceMotion ? undefined : { scale: photo.baseScale * 1.06 }}
-          transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
-          className="size-full object-cover"
         />
+
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
         {item.tag ? (
           <span className="absolute left-4 top-4 rounded-full border border-gold/40 bg-background/70 px-3 py-1 text-[0.65rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
@@ -141,3 +126,7 @@ export function MenuCard({ item, index }: { item: MenuItem; index: number }) {
     </motion.article>
   );
 }
+
+// Evita re-render dos cards que não mudaram quando o pai re-renderiza
+// (ex.: outro card recebendo hover, ou o estado da aba ativa mudando).
+export const MenuCard = memo(MenuCardImpl);

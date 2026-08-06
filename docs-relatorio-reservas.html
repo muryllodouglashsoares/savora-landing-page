@@ -1,0 +1,236 @@
+<!--
+  TEMPLATE DE PDF — Relatório de Reservas (Savora)
+  ==================================================
+  Para usar num app de "HTML/JSON → PDF" no Make (ex.: PDFMonkey, Docupilot,
+  APITemplate.io): cole este HTML no editor de template do app escolhido.
+  A sintaxe {{...}} e {{#each}} é Handlebars — suportada nativamente por
+  esses três apps. O Make manda um JSON parecido com isto para o template:
+
+  {
+    "periodo": "04 a 10 de agosto de 2026",
+    "gerado_em": "06/08/2026 às 14:32",
+    "total_reservas": 12,
+    "total_pessoas": 46,
+    "reservas": [
+      {
+        "nome": "Marina Duarte",
+        "data": "08/08/2026",
+        "dia_semana": "Sexta-feira",
+        "horario": "20:00",
+        "pessoas": 4,
+        "telefone": "(11) 98888-7777",
+        "observacoes": "Aniversário — mesa perto da janela, se possível"
+      }
+    ]
+  }
+
+  Esse array "reservas" normalmente vem do módulo "Google Sheets > Search
+  Rows" do Make, passado direto para o campo do template.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<style>
+  @page { size: A4; margin: 22mm 18mm; }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    color: #2a2420;
+    background: #faf6ef;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  /* ---------- Cabeçalho ---------- */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid #b8934a;
+    padding-bottom: 14px;
+    margin-bottom: 24px;
+  }
+  .brand {
+    font-size: 28px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a6a2e;
+    font-weight: normal;
+  }
+  .brand small {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: none;
+    color: #6b6156;
+    margin-top: 4px;
+  }
+  .header-meta {
+    text-align: right;
+    font-size: 10.5px;
+    color: #6b6156;
+  }
+  .header-meta strong {
+    display: block;
+    font-size: 13px;
+    color: #2a2420;
+  }
+
+  /* ---------- Resumo executivo ---------- */
+  .summary {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .summary-box {
+    flex: 1;
+    background: #fff;
+    border: 1px solid #e6dcc8;
+    border-left: 4px solid #b8934a;
+    padding: 14px 16px;
+  }
+  .summary-box .value {
+    font-size: 26px;
+    color: #8a6a2e;
+    font-weight: normal;
+  }
+  .summary-box .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #6b6156;
+    margin-top: 2px;
+  }
+
+  /* ---------- Lista de reservas ---------- */
+  .section-title {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8a6a2e;
+    border-bottom: 1px solid #e6dcc8;
+    padding-bottom: 6px;
+    margin-bottom: 16px;
+  }
+
+  .reserva-card {
+    background: #fff;
+    border: 1px solid #e6dcc8;
+    border-radius: 3px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    page-break-inside: avoid;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .reserva-principal { flex: 1; }
+
+  .reserva-nome {
+    font-size: 16px;
+    color: #2a2420;
+    margin: 0 0 4px 0;
+  }
+
+  .reserva-linha {
+    font-size: 11px;
+    color: #55483a;
+  }
+  .reserva-linha .sep { color: #cbb98a; margin: 0 6px; }
+
+  .reserva-obs {
+    margin-top: 6px;
+    font-size: 10.5px;
+    font-style: italic;
+    color: #8a6a2e;
+    background: #f6efdd;
+    padding: 4px 8px;
+    border-radius: 2px;
+    display: inline-block;
+  }
+
+  .reserva-destaque {
+    text-align: right;
+    padding-left: 18px;
+    border-left: 1px solid #e6dcc8;
+    min-width: 92px;
+  }
+  .reserva-destaque .hora {
+    font-size: 20px;
+    color: #8a6a2e;
+    display: block;
+  }
+  .reserva-destaque .pessoas {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #6b6156;
+  }
+
+  .footer {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #e6dcc8;
+    font-size: 9.5px;
+    color: #9a8f80;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="brand">
+      Savora
+      <small>Relatório de Reservas</small>
+    </div>
+    <div class="header-meta">
+      <strong>{{periodo}}</strong>
+      Gerado automaticamente em {{gerado_em}}
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-box">
+      <div class="value">{{total_reservas}}</div>
+      <div class="label">Reservas no período</div>
+    </div>
+    <div class="summary-box">
+      <div class="value">{{total_pessoas}}</div>
+      <div class="label">Pessoas esperadas</div>
+    </div>
+  </div>
+
+  <div class="section-title">Reservas confirmadas</div>
+
+  {{#each reservas}}
+  <div class="reserva-card">
+    <div class="reserva-principal">
+      <p class="reserva-nome">{{this.nome}}</p>
+      <div class="reserva-linha">
+        {{this.dia_semana}}, {{this.data}}
+        <span class="sep">•</span>
+        {{this.telefone}}
+      </div>
+      {{#if this.observacoes}}
+      <div class="reserva-obs">{{this.observacoes}}</div>
+      {{/if}}
+    </div>
+    <div class="reserva-destaque">
+      <span class="hora">{{this.horario}}</span>
+      <span class="pessoas">{{this.pessoas}} pessoas</span>
+    </div>
+  </div>
+  {{/each}}
+
+  <div class="footer">
+    Savora &middot; Relatório gerado automaticamente via Make &middot; documento de uso interno
+  </div>
+
+</body>
+</html>

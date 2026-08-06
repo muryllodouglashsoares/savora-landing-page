@@ -8,15 +8,24 @@ import drink from "@/assets/dish-drink.jpg";
 
 // Fotos adicionais (uma para cada prato que antes repetia a imagem de outro
 // prato da mesma categoria), escolhidas para combinar com o prato real.
-const carpaccio = "https://images.unsplash.com/photo-1508471349025-ca3e278cf5e2?w=900&auto=format&fit=crop&q=80";
-const tagliatelle = "https://images.unsplash.com/photo-1755677617146-9d69ea16b199?w=900&auto=format&fit=crop&q=80";
-const cordeiro = "https://images.unsplash.com/photo-1507150370052-1e798df49f29?w=900&auto=format&fit=crop&q=80";
-const bacalhau = "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=900&auto=format&fit=crop&q=80";
-const risotoFunghi = "https://images.unsplash.com/photo-1723476662512-6abc972f1167?w=900&auto=format&fit=crop&q=80";
-const tiramisu = "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=900&auto=format&fit=crop&q=80";
-const spritz = "https://images.unsplash.com/photo-1578467759626-f94129ea94a4?w=900&auto=format&fit=crop&q=80";
-const vinho = "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?w=900&auto=format&fit=crop&q=80";
-const kombucha = "https://images.unsplash.com/photo-1573812914274-226dc19fbe17?w=900&auto=format&fit=crop&q=80";
+//
+// Peso: cada card do cardápio mostra no máximo ~380px de largura (grid de
+// 3 colunas). Pedíamos w=900&q=80 do Unsplash — quase 3x mais pixels do que
+// qualquer card chega a exibir, mesmo em telas retina (2x ≈ 760px). Reduzido
+// para w=640&q=68, que cobre retina com folga e reduz o payload de cada
+// imagem em torno de 55-65%, sem perda visível de qualidade em miniatura.
+const unsplash = (photoId: string) =>
+  `https://images.unsplash.com/${photoId}?w=640&auto=format&fit=crop&q=68`;
+
+const carpaccio = unsplash("photo-1508471349025-ca3e278cf5e2");
+const tagliatelle = unsplash("photo-1755677617146-9d69ea16b199");
+const cordeiro = unsplash("photo-1507150370052-1e798df49f29");
+const bacalhau = unsplash("photo-1519708227418-c8fd9a32b7a2");
+const risotoFunghi = unsplash("photo-1723476662512-6abc972f1167");
+const tiramisu = unsplash("photo-1571877227200-a0d98ea607e9");
+const spritz = unsplash("photo-1578467759626-f94129ea94a4");
+const vinho = unsplash("photo-1553361371-9b22f78e8b1d");
+const kombucha = unsplash("photo-1573812914274-226dc19fbe17");
 
 export type MenuCategory =
   | "Entradas"

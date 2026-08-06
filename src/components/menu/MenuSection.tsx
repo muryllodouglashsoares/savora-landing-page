@@ -55,8 +55,14 @@ export function MenuSection() {
           </div>
         </LayoutGroup>
 
+        {/*
+          `MenuCard` não usa mais a prop `layout` do Framer Motion, então o
+          `AnimatePresence` aqui só cuida do fade/slide de entrada e saída de
+          cada card — sem remedir o grid inteiro a cada troca de categoria
+          (que é o que `popLayout` fazia antes, junto com o `layout` do card).
+        */}
         <div className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
+          <AnimatePresence initial={false}>
             {items.map((item, index) => (
               <MenuCard key={item.id} item={item} index={index} />
             ))}
