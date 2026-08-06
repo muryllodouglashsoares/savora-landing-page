@@ -6,6 +6,7 @@ import { CalendarCheck } from "lucide-react";
 import { SectionHeading } from "@/components/common/SectionHeading";
 import { MagneticButton } from "@/components/common/MagneticButton";
 import { EASE } from "@/lib/motion";
+import { submitReservation } from "@/lib/reservation-fn";
 
 interface ReservationForm {
   name: string;
@@ -20,20 +21,12 @@ interface ReservationForm {
 const fieldClass =
   "w-full rounded-md border border-input bg-background/60 px-4 py-3 text-sm outline-none transition-all duration-500 placeholder:text-muted-foreground/70 focus:border-gold focus:bg-background";
 
-// URL do Custom Webhook criado no Make (Webhooks > Custom webhook). Fica em
-// variável de ambiente para não precisar mexer no código quando o cenário
-// do Make mudar — só trocar o valor em .env / nas configurações do Worker.
-const RESERVATION_WEBHOOK_URL = import.meta.env["VITE_RESERVATION_WEBHOOK_URL"] as
-  | string
-  | undefined;
-
 /**
- * Formato enviado ao Make. Chaves em português para bater 1:1 com as colunas
- * da planilha do Google Sheets e com os placeholders do template do PDF
- * (relatorio-reservas.html), evitando remapear nomes de campo em cada etapa
- * do cenário.
+ * Formato enviado ao servidor (e, de lá, ao Make). Chaves em português para
+ * bater 1:1 com as colunas da planilha do Google Sheets e com os
+ * placeholders do template do PDF (relatorio-reservas.html).
  */
-function toWebhookPayload(data: ReservationForm) {
+function toReservationPayload(data: ReservationForm) {
   return {
     nome: data.name,
     email: data.email,
@@ -57,32 +50,18 @@ export function Reservation() {
   });
 
   const onSubmit = async (data: ReservationForm) => {
-    if (!RESERVATION_WEBHOOK_URL) {
-      // Falha de configuração, não do usuário: avisa e para aqui em vez de
-      // fingir sucesso — assim ninguém acha que a reserva foi enviada.
-      toast.error("Reservas indisponíveis no momento", {
-        description: "O formulário ainda não está conectado. Fale conosco por telefone ou WhatsApp.",
-      });
-      return;
-    }
-
     try {
-      const response = await fetch(RESERVATION_WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(toWebhookPayload(data)),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Webhook respondeu ${response.status}`);
-      }
+      // Chama a server function — roda no Worker, nunca no navegador. A URL
+      // do webhook do Make fica só no servidor (variável MAKE_WEBHOOK_URL),
+      // nunca é enviada ao cliente.
+      await submitReservation({ data: toReservationPayload(data) });
 
       toast.success("Reserva enviada", {
         description: `${data.name}, confirmaremos sua mesa para ${data.guests} em instantes.`,
       });
       reset({ guests: "2" });
     } catch (error) {
-      console.error("Falha ao enviar reserva para o webhook do Make:", error);
+      console.error("Falha ao enviar reserva:", error);
       toast.error("Não conseguimos enviar sua reserva", {
         description: "Tente novamente em instantes ou fale conosco por telefone.",
       });

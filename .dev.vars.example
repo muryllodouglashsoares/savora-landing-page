@@ -1,0 +1,12 @@
+# Secret do Worker usado pela server function em src/server/reservation.ts.
+# NÃO tem prefixo VITE_ de propósito: variáveis VITE_* são embutidas no
+# JavaScript enviado ao navegador. Esta aqui só é lida no servidor.
+#
+# Local (wrangler dev): copie para .dev.vars (já ignorado pelo git) na raiz
+# do projeto.
+#
+# Produção: NÃO coloque a URL real aqui. Configure via:
+#   npx wrangler secret put MAKE_WEBHOOK_URL
+# ou pelo dashboard: Workers & Pages > seu projeto > Settings > Variables
+# and Secrets > Add > tipo "Secret" (não "Text").
+MAKE_WEBHOOK_URL=https://hook.us1.make.com/xxxxxxxxxxxxxxxxxxxxxxxx
