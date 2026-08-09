@@ -5,10 +5,9 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { MagneticLink } from "@/components/common/MagneticLink";
 import { site } from "@/data/site";
 
-/**
- * Placeholder de mapa. O container abaixo está preparado para receber
- * a integração da Google Maps API sem alterar o layout.
- */
+const mapsEmbedSrc = `https://www.google.com/maps?q=${encodeURIComponent(site.address)}&output=embed`;
+const mapsSearchHref = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`;
+
 export function Location() {
   return (
     <section id="localizacao" className="scroll-mt-24 border-y border-border bg-surface/30 py-28">
@@ -50,7 +49,7 @@ export function Location() {
             ))}
 
             <MagneticLink
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(site.address)}`}
+              href={mapsSearchHref}
               target="_blank"
               rel="noreferrer"
               strength={8}
@@ -66,32 +65,30 @@ export function Location() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative grid min-h-[24rem] place-items-center overflow-hidden rounded-xl border border-border bg-background/60"
-            aria-label="Mapa da localização do restaurante"
+            className="relative min-h-[24rem] overflow-hidden rounded-xl border border-border bg-background/60"
           >
+            <iframe
+              title={`Mapa de localização — ${site.address}`}
+              src={mapsEmbedSrc}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              allowFullScreen
+              className="absolute inset-0 h-full w-full grayscale-[10%]"
+              style={{ filter: "invert(94%) hue-rotate(180deg) contrast(0.92) brightness(0.95)" }}
+            />
+
+            {/* soft vignette so the bright map blends into the dark theme */}
             <div
               aria-hidden="true"
-              className="absolute inset-0 opacity-30"
-              style={{
-                backgroundImage:
-                  "linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)",
-                backgroundSize: "48px 48px",
-              }}
+              className="pointer-events-none absolute inset-0 shadow-[inset_0_0_70px_28px_var(--background)] opacity-70"
             />
-            <div
-              aria-hidden="true"
-              className="absolute left-1/2 top-1/2 size-52 -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/10 blur-3xl"
-            />
-            <div className="relative text-center">
-              <motion.span
-                className="mx-auto grid size-14 place-items-center rounded-full border border-gold/40 text-gold"
-                animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <MapPin className="size-6" />
-              </motion.span>
-              <p className="mt-5 font-display text-2xl">Savora Cucina</p>
-              <p className="mt-1 text-sm text-muted-foreground">{site.address}</p>
+
+            <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-3 rounded-lg border border-gold/30 bg-background/85 px-4 py-2.5 backdrop-blur-sm">
+              <MapPin className="size-4 shrink-0 text-gold" />
+              <div>
+                <p className="font-display text-sm leading-tight">Savora Cucina</p>
+                <p className="text-xs text-muted-foreground">{site.address}</p>
+              </div>
             </div>
           </motion.div>
         </div>

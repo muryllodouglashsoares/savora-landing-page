@@ -6,50 +6,64 @@ interface Props {
 }
 
 /**
- * The "forming border" moment from first load — a thin gold ring that
- * draws itself around the plate — except here it never stops. It draws,
- * holds a beat, fades, pauses, and draws again, forever, at a slow and
- * quiet pace so it reads as ambience rather than a loading spinner.
+ * A gold aura around the plate: a soft ambient glow breathing behind it,
+ * a faint hairline so the rim always reads as gilded, and a brighter
+ * comet-like arc that circles the plate slowly and continuously forever.
  */
 export function PlateRing({ reduceMotion, delay }: Props) {
   if (reduceMotion) {
     return (
-      <svg
+      <div
         aria-hidden="true"
-        viewBox="0 0 100 100"
-        className="pointer-events-none absolute inset-[7%] opacity-40"
-      >
-        <circle cx="50" cy="50" r="47" fill="none" stroke="var(--gold)" strokeWidth="0.6" />
-      </svg>
+        className="pointer-events-none absolute inset-[7%] rounded-full opacity-50"
+        style={{
+          boxShadow: "0 0 0 1px color-mix(in oklab, var(--gold) 55%, transparent)",
+        }}
+      />
     );
   }
 
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 100 100"
-      className="pointer-events-none absolute inset-[7%] -rotate-90"
-    >
-      <motion.circle
-        cx="50"
-        cy="50"
-        r="47"
-        fill="none"
-        stroke="var(--gold)"
-        strokeWidth="0.55"
-        strokeLinecap="round"
-        style={{ filter: "drop-shadow(0 0 5px var(--gold))" }}
-        initial={{ pathLength: 0, opacity: 0 }}
-        animate={{ pathLength: [0, 1, 1, 0], opacity: [0, 0.85, 0.85, 0] }}
-        transition={{
-          delay,
-          duration: 5.2,
-          times: [0, 0.42, 0.78, 1],
-          repeat: Infinity,
-          repeatDelay: 1.8,
-          ease: "easeInOut",
+    <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+      {/* ambient halo — a slow breathing glow that sits behind the arc */}
+      <motion.div
+        className="absolute inset-[5%] rounded-full blur-2xl"
+        style={{
+          background:
+            "radial-gradient(circle, color-mix(in oklab, var(--gold) 55%, transparent) 0%, transparent 68%)",
+        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0.14, 0.4, 0.14] }}
+        transition={{ delay, duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+
+      {/* hairline — the rim always reads as gilded, even between passes */}
+      <div
+        className="absolute inset-[7%] rounded-full"
+        style={{
+          boxShadow: "0 0 0 1px color-mix(in oklab, var(--gold) 28%, transparent)",
         }}
       />
-    </svg>
+
+      {/* the comet — a bright gradient arc that circles the plate forever */}
+      <motion.div
+        className="absolute inset-[7%] rounded-full"
+        style={{
+          background:
+            "conic-gradient(from 0deg, transparent 0deg, color-mix(in oklab, var(--gold) 45%, transparent) 28deg, color-mix(in oklab, var(--gold) 95%, white 10%) 46deg, color-mix(in oklab, var(--gold) 45%, transparent) 64deg, transparent 130deg, transparent 360deg)",
+          WebkitMaskImage:
+            "radial-gradient(farthest-side, transparent calc(100% - 3.5px), black calc(100% - 3.5px))",
+          maskImage:
+            "radial-gradient(farthest-side, transparent calc(100% - 3.5px), black calc(100% - 3.5px))",
+          filter: "drop-shadow(0 0 7px color-mix(in oklab, var(--gold) 75%, transparent))",
+        }}
+        initial={{ rotate: 0, opacity: 0 }}
+        animate={{ rotate: 360, opacity: 1 }}
+        transition={{
+          rotate: { delay, duration: 9, repeat: Infinity, ease: "linear" },
+          opacity: { delay, duration: 1.1, ease: "easeOut" },
+        }}
+      />
+    </div>
   );
 }
