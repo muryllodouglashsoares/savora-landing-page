@@ -207,6 +207,11 @@ export function Reservation() {
             <CalendarCheck className="size-4 transition-transform duration-500 group-hover:-rotate-6" />
             {isSubmitting ? "Enviando…" : "Confirmar reserva"}
           </MagneticButton>
+
+          <p className="text-center text-[0.7rem] leading-relaxed text-muted-foreground/70 sm:col-span-2">
+            Os dados informados neste formulário são coletados exclusivamente para o registro e a
+            confirmação da sua reserva.
+          </p>
         </motion.form>
       </div>
     </section>

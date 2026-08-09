@@ -11,6 +11,8 @@ import parmesan from "@/assets/ing-parmesan.webp";
 import pepper from "@/assets/ing-pepper.webp";
 
 import { Ingredient, type IngredientPiece } from "./Ingredient";
+import { Plate } from "./Plate";
+import { PlateRing } from "./PlateRing";
 import { ShineEffect } from "./ShineEffect";
 import { SeasoningParticles } from "./SeasoningParticles";
 import { EASE } from "@/lib/motion";
@@ -151,6 +153,8 @@ export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnim
   const pace = isMobile ? 0.62 : 1;
   const pieces = isMobile ? MOBILE_PIECES : DESKTOP_PIECES;
 
+  // the plate is set down first — everything else lands on top of it
+  const plateDelay = 0.05 * pace;
   const dishDelay = 0.2 * pace;
   const gap = (isMobile ? 0.22 : 0.3) * pace;
   const firstBeat = 0.55 * pace;
@@ -182,6 +186,10 @@ export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnim
             }
       }
     >
+      {/* the plate — set down first, dish and garnish land on top of it */}
+      <Plate reduceMotion={reduceMotion} delay={plateDelay} />
+      <PlateRing reduceMotion={reduceMotion} delay={particlesDelay + 0.5} />
+
       {/* the foundation — dish drops in first, everything else lands on it */}
       <motion.img
         src={dish}
