@@ -18,8 +18,11 @@ interface ReservationForm {
   notes?: string;
 }
 
+// text-base (16px) is deliberate, not cosmetic: iOS Safari auto-zooms the
+// whole page on focus for any input rendered under 16px, which would fight
+// the user every time they open a field on mobile.
 const fieldClass =
-  "w-full rounded-md border border-input bg-background/60 px-4 py-3 text-sm outline-none transition-all duration-500 placeholder:text-muted-foreground/70 focus:border-gold focus:bg-background";
+  "w-full rounded-md border border-input bg-background/60 px-4 py-3 text-base outline-none transition-all duration-500 placeholder:text-muted-foreground/70 focus:border-gold focus:bg-background";
 
 /**
  * Formato enviado ao servidor (e, de lá, ao Make). Chaves em português para
@@ -69,8 +72,8 @@ export function Reservation() {
   };
 
   return (
-    <section id="reservas" className="scroll-mt-24 py-28">
-      <div className="mx-auto max-w-3xl px-6">
+    <section id="reservas" className="scroll-mt-24 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-3xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Reservas"
           title="Garanta sua mesa"
@@ -84,7 +87,7 @@ export function Reservation() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7, ease: EASE.crisp }}
-          className="card-luxe mt-14 grid gap-5 rounded-xl p-8 sm:grid-cols-2"
+          className="card-luxe mt-10 grid gap-5 rounded-xl p-5 sm:mt-14 sm:grid-cols-2 sm:p-8"
           noValidate
         >
           <div className="sm:col-span-2">
@@ -156,7 +159,7 @@ export function Reservation() {
             ) : null}
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
+          <div className="grid grid-cols-2 gap-3 sm:gap-5">
             <div>
               <label htmlFor="time" className="text-xs uppercase tracking-[0.2em] text-gold">
                 Horário

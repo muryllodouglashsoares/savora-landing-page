@@ -10,8 +10,8 @@ const mapsSearchHref = `https://www.google.com/maps/search/?api=1&query=${encode
 
 export function Location() {
   return (
-    <section id="localizacao" className="scroll-mt-24 border-y border-border bg-surface/30 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="localizacao" className="scroll-mt-24 border-y border-border bg-surface/30 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Localização"
           title="Onde nos encontrar"
@@ -19,7 +19,7 @@ export function Location() {
           variant="refined"
         />
 
-        <div className="mt-16 grid gap-8 lg:grid-cols-[1fr_1.15fr]">
+        <div className="mt-10 grid gap-8 sm:mt-14 lg:mt-16 lg:grid-cols-[1fr_1.15fr]">
           <div className="space-y-4">
             {[
               { icon: MapPin, label: "Endereço", value: site.address },

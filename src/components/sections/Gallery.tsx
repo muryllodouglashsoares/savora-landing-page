@@ -12,11 +12,11 @@ import drink from "@/assets/dish-drink.jpg";
 import interior from "@/assets/cta-interior.jpg";
 
 const shots = [
-  { src: interior, alt: "Salão do Savora ao anoitecer", span: "sm:col-span-2 sm:row-span-2" },
+  { src: interior, alt: "Salão do Savora ao anoitecer", span: "col-span-2 row-span-2" },
   { src: massa, alt: "Ravioli artesanal", span: "" },
   { src: carne, alt: "Corte maturado na brasa", span: "" },
   { src: entrada, alt: "Burrata com tomates confitados", span: "" },
-  { src: drink, alt: "Drink autoral defumado", span: "sm:row-span-2" },
+  { src: drink, alt: "Drink autoral defumado", span: "row-span-2" },
   { src: risoto, alt: "Risoto de açafrão", span: "" },
   { src: peixe, alt: "Robalo em beurre blanc", span: "" },
   { src: sobremesa, alt: "Sobremesa Ouro Negro", span: "" },
@@ -24,8 +24,8 @@ const shots = [
 
 export function Gallery() {
   return (
-    <section id="galeria" className="scroll-mt-24 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="galeria" className="scroll-mt-24 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Galeria"
           title="A casa em quadros"
@@ -33,7 +33,7 @@ export function Gallery() {
           variant="fluid"
         />
 
-        <div className="mt-16 grid auto-rows-[13rem] grid-cols-2 gap-3 sm:grid-cols-4">
+        <div className="mt-10 grid auto-rows-[9rem] grid-cols-2 gap-2.5 sm:mt-14 sm:auto-rows-[13rem] sm:grid-cols-4 sm:gap-3 lg:mt-16">
           {shots.map((shot, index) => (
             <motion.figure
               key={shot.alt}

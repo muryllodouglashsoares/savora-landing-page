@@ -21,19 +21,24 @@ export function Hero() {
   });
 
   // Scroll parallax — driven entirely by motion values (no re-renders), and
-  // only ever animates transform/opacity.
-  const dishY = useTransform(scrollYProgress, [0, 1], [0, 220]);
-  const dishScale = useTransform(scrollYProgress, [0, 1], [1, 1.12]);
-  const copyY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const copyOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
+  // only ever animates transform/opacity. Collapsed to a no-op range when
+  // the user prefers reduced motion, so nothing shifts on scroll for them.
+  const dishY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, 220]);
+  const dishScale = useTransform(scrollYProgress, [0, 1], reduceMotion ? [1, 1] : [1, 1.12]);
+  const copyY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [0, -120]);
+  const copyOpacity = useTransform(scrollYProgress, [0, 0.55], reduceMotion ? [1, 1] : [1, 0]);
 
   // Cursor tilt — small, transform-only, and only recomputed on pointer
   // move (not on a timer), so it costs nothing while the pointer is still.
   const dishTiltX = useSpring(useTransform(pointerY, [-1, 1], [4, -4]), SPRING.heavy);
   const dishTiltY = useSpring(useTransform(pointerX, [-1, 1], [-6, 6]), SPRING.heavy);
 
+  // Only real mice/trackpads drive the tilt. Touch input fires pointermove
+  // too (while scrolling a finger through the Hero), which would otherwise
+  // read as jittery, unwanted rotation instead of a deliberate cursor effect.
   const handlePointer = useCallback(
     (event: React.PointerEvent<HTMLElement>) => {
+      if (event.pointerType !== "mouse") return;
       const rect = event.currentTarget.getBoundingClientRect();
       pointerX.set(((event.clientX - rect.left) / rect.width) * 2 - 1);
       pointerY.set(((event.clientY - rect.top) / rect.height) * 2 - 1);
@@ -52,7 +57,7 @@ export function Hero() {
       id="hero"
       onPointerMove={handlePointer}
       onPointerLeave={resetPointer}
-      className="grain-overlay relative flex min-h-[100svh] items-center overflow-hidden pt-28 pb-20"
+      className="grain-overlay relative flex min-h-[100svh] items-center overflow-hidden pt-24 pb-14 sm:pt-28 sm:pb-20"
     >
       {/* cinematic lighting — a static gradient, no animation cost */}
       <div
@@ -77,8 +82,17 @@ export function Hero() {
         className="absolute inset-x-0 bottom-0 h-52 bg-gradient-to-t from-background to-transparent"
       />
 
-      <div className="relative z-20 mx-auto grid w-full max-w-7xl items-center gap-12 px-6 lg:grid-cols-[1.05fr_1fr]">
-        <motion.div style={{ y: copyY, opacity: copyOpacity }}>
+      <div className="relative z-20 mx-auto grid w-full max-w-7xl items-center gap-10 px-5 sm:gap-12 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:grid-rows-[auto_auto] lg:gap-y-10">
+        {/*
+          Mobile order (source order, no `order-*` needed): identity → title
+          → text → buttons → plate → stats. On lg+, the plate moves into its
+          own column, spanning both rows so it sits beside the copy exactly
+          like before, and the stats return to sitting under the copy.
+        */}
+        <motion.div
+          className="lg:col-start-1 lg:row-start-1"
+          style={{ y: copyY, opacity: copyOpacity }}
+        >
           <motion.p
             className="eyebrow"
             initial={{ opacity: 0, y: 20 }}
@@ -89,7 +103,7 @@ export function Hero() {
           </motion.p>
 
           <motion.h1
-            className="mt-6 text-[clamp(3rem,9vw,7rem)] leading-[0.92]"
+            className="mt-5 text-[clamp(2.75rem,11vw,7rem)] leading-[0.95] sm:mt-6 sm:leading-[0.92]"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, delay: 0.2, ease: EASE.luxe }}
@@ -102,7 +116,7 @@ export function Hero() {
           </motion.h1>
 
           <motion.p
-            className="mt-7 max-w-md text-base leading-relaxed text-muted-foreground sm:text-lg"
+            className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground sm:mt-7 sm:text-lg"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.4 }}
@@ -112,55 +126,55 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4"
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.55 }}
           >
             <MagneticLink
               href="#reservas"
-              className="group inline-flex items-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-medium tracking-wide text-primary-foreground transition-[box-shadow,filter] duration-500 hover:shadow-[0_0_40px_-6px_var(--gold)] hover:brightness-110"
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-gold px-7 py-3.5 text-sm font-medium tracking-wide text-primary-foreground transition-[box-shadow,filter] duration-500 hover:shadow-[0_0_40px_-6px_var(--gold)] hover:brightness-110 sm:w-auto"
             >
               <CalendarCheck className="size-4 transition-transform duration-500 group-hover:-rotate-6" />
               Reservar mesa
             </MagneticLink>
             <MagneticLink
               href="#cardapio"
-              className="group inline-flex items-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm tracking-wide transition-colors duration-500 hover:border-gold hover:bg-surface"
+              className="group inline-flex items-center justify-center gap-2 rounded-full border border-border px-7 py-3.5 text-sm tracking-wide transition-colors duration-500 hover:border-gold hover:bg-surface sm:w-auto"
             >
               <UtensilsCrossed className="size-4 text-gold transition-transform duration-500 group-hover:rotate-12" />
               Ver cardápio
             </MagneticLink>
           </motion.div>
-
-          <motion.dl
-            className="mt-14 flex flex-wrap gap-10 border-t border-border pt-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.8 }}
-          >
-            {[
-              { k: "12 anos", v: "de cozinha autoral" },
-              { k: "220", v: "rótulos na adega" },
-              { k: "4.9", v: "avaliação média" },
-            ].map((stat) => (
-              <div key={stat.k}>
-                <dt className="font-display text-3xl text-gold">{stat.k}</dt>
-                <dd className="mt-1 text-xs uppercase tracking-[0.2em] text-muted-foreground">
-                  {stat.v}
-                </dd>
-              </div>
-            ))}
-          </motion.dl>
         </motion.div>
 
         {/* the plate — chef's-eye plating, once, then completely still */}
         <motion.div
-          className="relative flex items-center justify-center"
+          className="relative flex items-center justify-center lg:col-start-2 lg:row-start-1 lg:row-span-2"
           style={{ y: dishY, scale: dishScale, zIndex: 25 }}
         >
           <PlateAnimation reduceMotion={reduceMotion} dishTiltX={dishTiltX} dishTiltY={dishTiltY} />
         </motion.div>
+
+        <motion.dl
+          className="grid grid-cols-3 gap-3 border-t border-border pt-6 sm:flex sm:flex-wrap sm:gap-10 sm:pt-8 lg:col-start-1 lg:row-start-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.8 }}
+        >
+          {[
+            { k: "12 anos", v: "de cozinha autoral" },
+            { k: "220", v: "rótulos na adega" },
+            { k: "4.9", v: "avaliação média" },
+          ].map((stat) => (
+            <div key={stat.k}>
+              <dt className="font-display text-2xl text-gold sm:text-3xl">{stat.k}</dt>
+              <dd className="mt-1 text-[0.65rem] uppercase leading-snug tracking-[0.14em] text-muted-foreground sm:text-xs sm:tracking-[0.2em]">
+                {stat.v}
+              </dd>
+            </div>
+          ))}
+        </motion.dl>
       </div>
 
       <motion.a

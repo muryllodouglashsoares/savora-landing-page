@@ -10,8 +10,8 @@ export function MenuSection() {
   const items = useMemo(() => menuItems.filter((item) => item.category === active), [active]);
 
   return (
-    <section id="cardapio" className="relative scroll-mt-24 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="cardapio" className="relative scroll-mt-24 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Cardápio digital"
           title="Cada categoria, um capítulo"
@@ -19,39 +19,41 @@ export function MenuSection() {
         />
 
         <LayoutGroup>
-          <div
-            role="tablist"
-            aria-label="Categorias do cardápio"
-            className="mt-14 flex flex-wrap justify-center gap-2"
-          >
-            {menuCategories.map((category) => {
-              const selected = category === active;
-              return (
-                <button
-                  key={category}
-                  role="tab"
-                  type="button"
-                  aria-selected={selected}
-                  onClick={() => setActive(category)}
-                  className={`relative rounded-full px-5 py-2.5 text-sm tracking-wide transition-colors duration-500 ${
-                    selected
-                      ? "text-primary-foreground"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {selected ? (
-                    <motion.span
-                      layoutId="menu-pill"
-                      className="absolute inset-0 rounded-full bg-gold"
-                      transition={{ type: "spring", stiffness: 340, damping: 32 }}
-                    />
-                  ) : (
-                    <span className="absolute inset-0 rounded-full border border-border" />
-                  )}
-                  <span className="relative">{category}</span>
-                </button>
-              );
-            })}
+          <div className="relative -mx-5 sm:mx-0">
+            <div
+              role="tablist"
+              aria-label="Categorias do cardápio"
+              className="mt-10 flex gap-2 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:mt-14 sm:flex-wrap sm:justify-center sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden"
+            >
+              {menuCategories.map((category) => {
+                const selected = category === active;
+                return (
+                  <button
+                    key={category}
+                    role="tab"
+                    type="button"
+                    aria-selected={selected}
+                    onClick={() => setActive(category)}
+                    className={`relative shrink-0 rounded-full px-5 py-3 text-sm tracking-wide transition-colors duration-500 sm:py-2.5 ${
+                      selected
+                        ? "text-primary-foreground"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {selected ? (
+                      <motion.span
+                        layoutId="menu-pill"
+                        className="absolute inset-0 rounded-full bg-gold"
+                        transition={{ type: "spring", stiffness: 340, damping: 32 }}
+                      />
+                    ) : (
+                      <span className="absolute inset-0 rounded-full border border-border" />
+                    )}
+                    <span className="relative">{category}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </LayoutGroup>
 
@@ -61,7 +63,7 @@ export function MenuSection() {
           cada card — sem remedir o grid inteiro a cada troca de categoria
           (que é o que `popLayout` fazia antes, junto com o `layout` do card).
         */}
-        <div className="mt-14 grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-7 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
           <AnimatePresence initial={false}>
             {items.map((item, index) => (
               <MenuCard key={item.id} item={item} index={index} />

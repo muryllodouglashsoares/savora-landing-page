@@ -13,8 +13,11 @@ export function About() {
   const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section id="sobre" className="relative scroll-mt-24 border-y border-border py-28">
-      <div ref={ref} className="mx-auto grid max-w-7xl items-center gap-14 px-6 lg:grid-cols-2">
+    <section id="sobre" className="relative scroll-mt-24 border-y border-border py-16 sm:py-20 lg:py-28">
+      <div
+        ref={ref}
+        className="mx-auto grid max-w-7xl items-center gap-8 px-5 sm:gap-10 sm:px-6 lg:grid-cols-2 lg:gap-14"
+      >
         <div className="relative overflow-hidden rounded-xl">
           <motion.img
             src={chef}
@@ -24,7 +27,7 @@ export function About() {
             width={900}
             height={900}
             style={{ y: imageY }}
-            className="h-[32rem] w-full scale-110 object-cover"
+            className="h-80 w-full scale-110 object-cover sm:h-96 lg:h-[32rem]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
           <div className="absolute bottom-6 left-6">

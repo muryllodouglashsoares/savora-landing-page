@@ -30,7 +30,7 @@ export function FinalCta() {
         style={{ background: "var(--gradient-ember)" }}
       />
 
-      <div className="relative mx-auto max-w-3xl px-6 py-40 text-center">
+      <div className="relative mx-auto max-w-3xl px-5 py-24 text-center sm:px-6 sm:py-32 lg:py-40">
         <motion.p
           className="eyebrow"
           initial={{ opacity: 0, y: 20 }}

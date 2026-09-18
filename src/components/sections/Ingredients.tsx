@@ -8,15 +8,15 @@ const icons = { Sparkles, Droplets, Leaf, CircleDot, Snowflake, Flame } as const
 
 export function Ingredients() {
   return (
-    <section className="border-y border-border bg-surface/30 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="border-y border-border bg-surface/30 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Ingredientes"
           title="Origem que se prova"
           description="Rastreamos cada item essencial da cozinha até o produtor que o cultivou."
         />
 
-        <div className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 sm:mt-14 sm:grid-cols-2 lg:mt-16 lg:grid-cols-3">
           {ingredients.map((item, index) => {
             const Icon = icons[item.icon as keyof typeof icons];
             return (

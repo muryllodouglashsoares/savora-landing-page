@@ -7,8 +7,8 @@ import { SPRING } from "@/lib/motion";
 
 export function Reviews() {
   return (
-    <section className="border-y border-border bg-surface/30 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section className="border-y border-border bg-surface/30 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Avaliações"
           title="O que dizem à mesa"
@@ -16,7 +16,7 @@ export function Reviews() {
           variant="story"
         />
 
-        <div className="mt-16 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-10 grid gap-6 sm:mt-14 md:grid-cols-2 lg:mt-16 xl:grid-cols-4">
           {reviews.map((review, index) => (
             <motion.blockquote
               key={review.name}

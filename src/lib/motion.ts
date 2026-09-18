@@ -93,7 +93,9 @@ export function useMagnetic<T extends HTMLElement>(strength = 14) {
   const springY = useSpring(y, SPRING.light);
 
   const onPointerMove = (event: React.PointerEvent) => {
-    if (reduceMotion) return;
+    // Touch has no "hover" to lean into — only mice/trackpads get the
+    // magnetic pull, so a tap never nudges the button off-position first.
+    if (reduceMotion || event.pointerType !== "mouse") return;
     const rect = ref.current?.getBoundingClientRect();
     if (!rect) return;
     const relX = (event.clientX - rect.left) / rect.width - 0.5;

@@ -10,8 +10,8 @@ import { faqs } from "@/data/site";
 
 export function Faq() {
   return (
-    <section className="py-28">
-      <div className="mx-auto max-w-3xl px-6">
+    <section className="py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-3xl px-5 sm:px-6">
         <SectionHeading eyebrow="Dúvidas" title="Perguntas frequentes" variant="discrete" />
 
         <Reveal delay={0.1} variant="discrete">

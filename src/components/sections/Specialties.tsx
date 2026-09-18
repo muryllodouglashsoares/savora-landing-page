@@ -22,7 +22,7 @@ function SpecialtyCard({ item, index }: { item: (typeof specialties)[number]; in
   );
 
   const handleMove = (event: React.PointerEvent<HTMLElement>) => {
-    if (reduceMotion) return;
+    if (reduceMotion || event.pointerType !== "mouse") return;
     const rect = event.currentTarget.getBoundingClientRect();
     const relX = (event.clientX - rect.left) / rect.width - 0.5;
     const relY = (event.clientY - rect.top) / rect.height - 0.5;
@@ -65,8 +65,8 @@ function SpecialtyCard({ item, index }: { item: (typeof specialties)[number]; in
 
 export function Specialties() {
   return (
-    <section id="especialidades" className="scroll-mt-24 py-28">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="especialidades" className="scroll-mt-24 py-16 sm:py-20 lg:py-28">
+      <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Especialidades"
           title="O que define a casa"
@@ -74,7 +74,7 @@ export function Specialties() {
           variant="refined"
         />
 
-        <div className="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-6 sm:mt-14 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
           {specialties.map((item, index) => (
             <SpecialtyCard key={item.title} item={item} index={index} />
           ))}

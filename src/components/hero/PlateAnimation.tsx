@@ -171,7 +171,7 @@ export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnim
 
   return (
     <motion.div
-      className="relative aspect-square w-[min(100%,34rem)]"
+      className="relative aspect-square w-[min(78%,20rem)] sm:w-[min(85%,26rem)] lg:w-[min(100%,34rem)]"
       style={{ rotateX: dishTiltX, rotateY: dishTiltY, perspective: 1200 }}
       initial={reduceMotion ? false : { scale: 1 }}
       animate={reduceMotion ? { scale: 1 } : { scale: [1, 1, 1.03, 1] }}

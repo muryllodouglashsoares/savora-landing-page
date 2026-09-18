@@ -58,7 +58,7 @@ export function Navbar() {
     >
       <nav
         aria-label="Navegação principal"
-        className="mx-auto flex max-w-7xl items-center justify-between px-6"
+        className="mx-auto flex max-w-7xl items-center justify-between px-5 sm:px-6"
       >
         <a
           href="#hero"
@@ -72,7 +72,9 @@ export function Navbar() {
             height={30}
             className="size-[30px] rounded-[7px] transition-transform duration-500 group-hover:scale-105"
           />
-          <span className="font-display text-2xl tracking-[0.3em]">SAVORA</span>
+          <span className="font-display text-xl tracking-[0.2em] sm:text-2xl sm:tracking-[0.3em]">
+            SAVORA
+          </span>
         </a>
 
         <ul className="hidden items-center gap-9 lg:flex">
@@ -107,7 +109,7 @@ export function Navbar() {
             aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
-            className="rounded-full border border-border p-2 transition-colors hover:border-gold lg:hidden"
+            className="rounded-full border border-border p-2.5 transition-colors hover:border-gold lg:hidden"
           >
             {open ? <X className="size-5" /> : <Menu className="size-5" />}
           </button>
