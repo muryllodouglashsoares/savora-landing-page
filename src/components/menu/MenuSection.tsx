@@ -32,7 +32,22 @@ export function MenuSection() {
                     key={category}
                     role="tab"
                     type="button"
+                    id={`tab-${menuCategories.indexOf(category)}`}
                     aria-selected={selected}
+                    aria-controls="painel-cardapio"
+                    tabIndex={selected ? 0 : -1}
+                    onKeyDown={(event) => {
+                      const i = menuCategories.indexOf(category);
+                      const step =
+                        event.key === "ArrowRight" ? 1 : event.key === "ArrowLeft" ? -1 : 0;
+                      if (!step) return;
+                      event.preventDefault();
+                      const nextIndex = (i + step + menuCategories.length) % menuCategories.length;
+                      const next = menuCategories[nextIndex];
+                      if (!next) return;
+                      setActive(next);
+                      document.getElementById(`tab-${nextIndex}`)?.focus();
+                    }}
                     onClick={() => setActive(category)}
                     className={`relative shrink-0 rounded-full px-5 py-3 text-sm tracking-wide transition-colors duration-500 sm:py-2.5 ${
                       selected
@@ -63,7 +78,12 @@ export function MenuSection() {
           cada card — sem remedir o grid inteiro a cada troca de categoria
           (que é o que `popLayout` fazia antes, junto com o `layout` do card).
         */}
-        <div className="mt-10 grid gap-7 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3">
+        <div
+          role="tabpanel"
+          id="painel-cardapio"
+          aria-labelledby={`tab-${menuCategories.indexOf(active)}`}
+          className="mt-10 grid gap-7 sm:mt-14 sm:grid-cols-2 lg:grid-cols-3"
+        >
           <AnimatePresence initial={false}>
             {items.map((item, index) => (
               <MenuCard key={item.id} item={item} index={index} />

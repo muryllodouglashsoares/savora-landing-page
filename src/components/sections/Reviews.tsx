@@ -29,7 +29,11 @@ export function Reviews() {
             >
               <Quote className="size-6 text-gold/40" />
               <p className="mt-5 text-sm leading-relaxed text-muted-foreground">“{review.text}”</p>
-              <div className="mt-6 flex gap-1" aria-label={`${review.rating} de 5 estrelas`}>
+              <div
+                className="mt-6 flex gap-1"
+                role="img"
+                aria-label={`${review.rating} de 5 estrelas`}
+              >
                 {Array.from({ length: review.rating }).map((_, i) => (
                   <Star key={i} className="size-3.5 fill-gold text-gold" />
                 ))}

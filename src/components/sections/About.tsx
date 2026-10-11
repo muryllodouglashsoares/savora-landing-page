@@ -13,7 +13,10 @@ export function About() {
   const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
 
   return (
-    <section id="sobre" className="relative scroll-mt-24 border-y border-border py-16 sm:py-20 lg:py-28">
+    <section
+      id="sobre"
+      className="relative scroll-mt-24 border-y border-border py-16 sm:py-20 lg:py-28"
+    >
       <div
         ref={ref}
         className="mx-auto grid max-w-7xl items-center gap-8 px-5 sm:gap-10 sm:px-6 lg:grid-cols-2 lg:gap-14"

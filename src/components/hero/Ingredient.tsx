@@ -38,7 +38,6 @@ export function Ingredient({ piece, reduceMotion, scale = 1 }: Props) {
     <motion.img
       src={src}
       alt={alt}
-      loading="lazy"
       decoding="async"
       className="pointer-events-none absolute select-none"
       style={{

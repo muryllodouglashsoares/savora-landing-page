@@ -2,13 +2,15 @@ export const site = {
   name: "Savora",
   tagline: "Cozinha contemporânea",
   phone: "+55 11 4002-8922",
-  whatsapp: "https://wa.me/5511400289220",
+  whatsapp: "https://wa.me/551140028922",
   address: "Rua das Oliveiras, 1287 — Jardins, São Paulo",
   hours: [
     { day: "Terça a Quinta", time: "18h — 23h" },
     { day: "Sexta e Sábado", time: "12h — 00h" },
     { day: "Domingo", time: "12h — 17h" },
   ],
+  // Preencha com as URLs oficiais; redes sem URL não são exibidas no rodapé.
+  social: { instagram: "", facebook: "" },
   nav: [
     { label: "Cardápio", href: "#cardapio" },
     { label: "Sobre", href: "#sobre" },

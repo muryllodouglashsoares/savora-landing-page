@@ -16,18 +16,41 @@ export interface ReservationPayload {
   enviado_em: string;
 }
 
+const MAX_LEN = { nome: 120, email: 160, telefone: 30, observacoes: 500 } as const;
+const GUESTS = new Set(["1", "2", "3", "4", "5", "6", "8", "10+"]);
+
+/**
+ * Valida de verdade no servidor (o navegador pode ser contornado): tipos,
+ * tamanhos máximos e formatos. Evita encaminhar lixo/payloads enormes ao webhook.
+ */
 function isReservationPayload(value: unknown): value is ReservationPayload {
   if (!value || typeof value !== "object") return false;
   const v = value as Record<string, unknown>;
+  const str = (k: string) => (typeof v[k] === "string" ? (v[k] as string) : null);
+
+  const nome = str("nome");
+  const email = str("email");
+  const telefone = str("telefone");
+  const data = str("data");
+  const horario = str("horario");
+  const pessoas = str("pessoas");
+  const observacoes = str("observacoes");
+  const enviado = str("enviado_em");
+  if ([nome, email, telefone, data, horario, pessoas, observacoes, enviado].includes(null))
+    return false;
+
   return (
-    typeof v["nome"] === "string" &&
-    typeof v["email"] === "string" &&
-    typeof v["telefone"] === "string" &&
-    typeof v["data"] === "string" &&
-    typeof v["horario"] === "string" &&
-    typeof v["pessoas"] === "string" &&
-    typeof v["observacoes"] === "string" &&
-    typeof v["enviado_em"] === "string"
+    nome!.trim().length > 0 &&
+    nome!.length <= MAX_LEN.nome &&
+    /^\S+@\S+\.\S+$/.test(email!) &&
+    email!.length <= MAX_LEN.email &&
+    telefone!.replace(/\D/g, "").length >= 10 &&
+    telefone!.length <= MAX_LEN.telefone &&
+    /^\d{4}-\d{2}-\d{2}$/.test(data!) &&
+    /^\d{2}:\d{2}$/.test(horario!) &&
+    GUESTS.has(pessoas!) &&
+    observacoes!.length <= MAX_LEN.observacoes &&
+    !Number.isNaN(Date.parse(enviado!))
   );
 }
 
@@ -62,6 +85,8 @@ export const submitReservation = createServerFn({ method: "POST" })
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
+      // Não deixa a requisição do usuário pendurada se o Make não responder.
+      signal: AbortSignal.timeout(10_000),
     });
 
     if (!response.ok) {

@@ -2,7 +2,8 @@ import * as React from "react";
 
 const MOBILE_BREAKPOINT = 768;
 
-export function useIsMobile() {
+/** `undefined` até o primeiro efeito no cliente (SSR/hidratação); depois true/false. */
+export function useIsMobileResolved() {
   const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined);
 
   React.useEffect(() => {
@@ -15,5 +16,9 @@ export function useIsMobile() {
     return () => mql.removeEventListener("change", onChange);
   }, []);
 
-  return !!isMobile;
+  return isMobile;
+}
+
+export function useIsMobile() {
+  return !!useIsMobileResolved();
 }

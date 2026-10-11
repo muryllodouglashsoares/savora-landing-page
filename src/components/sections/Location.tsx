@@ -10,7 +10,10 @@ const mapsSearchHref = `https://www.google.com/maps/search/?api=1&query=${encode
 
 export function Location() {
   return (
-    <section id="localizacao" className="scroll-mt-24 border-y border-border bg-surface/30 py-16 sm:py-20 lg:py-28">
+    <section
+      id="localizacao"
+      className="scroll-mt-24 border-y border-border bg-surface/30 py-16 sm:py-20 lg:py-28"
+    >
       <div className="mx-auto max-w-7xl px-5 sm:px-6">
         <SectionHeading
           eyebrow="Localização"
@@ -51,7 +54,7 @@ export function Location() {
             <MagneticLink
               href={mapsSearchHref}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               strength={8}
               className="group inline-flex w-full items-center justify-center gap-2 rounded-full border border-gold/60 px-7 py-3.5 text-sm text-gold transition-colors duration-500 hover:bg-gold hover:text-primary-foreground"
             >

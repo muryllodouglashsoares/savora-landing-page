@@ -16,7 +16,7 @@ import { PlateRing } from "./PlateRing";
 import { ShineEffect } from "./ShineEffect";
 import { SeasoningParticles } from "./SeasoningParticles";
 import { EASE } from "@/lib/motion";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobileResolved } from "@/hooks/use-mobile";
 
 /**
  * The plating sequence, timed to the reference the brief gave us
@@ -146,7 +146,12 @@ export interface PlateAnimationProps {
 }
 
 export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnimationProps) {
-  const isMobile = useIsMobile();
+  const resolved = useIsMobileResolved();
+  // Até o breakpoint ser conhecido (SSR/hidratação) não iniciamos os pedaços:
+  // antes, o celular começava com os 7 ingredientes de desktop e trocava para
+  // os 4 do mobile no meio da animação (peças sumindo/pulando de posição).
+  const ready = resolved !== undefined;
+  const isMobile = !!resolved;
   const [dishSettled, setDishSettled] = useState(reduceMotion);
 
   // Mobile plays a shorter, lighter pass: fewer pieces, compressed timeline.
@@ -188,7 +193,7 @@ export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnim
     >
       {/* the plate — set down first, dish and garnish land on top of it */}
       <Plate reduceMotion={reduceMotion} delay={plateDelay} />
-      <PlateRing reduceMotion={reduceMotion} delay={particlesDelay + 0.5} />
+      {ready ? <PlateRing reduceMotion={reduceMotion} delay={particlesDelay + 0.5} /> : null}
 
       {/* the foundation — dish drops in first, everything else lands on it */}
       <motion.img
@@ -210,16 +215,20 @@ export function PlateAnimation({ reduceMotion, dishTiltX, dishTiltY }: PlateAnim
         onAnimationComplete={() => setDishSettled(true)}
       />
 
-      {timedPieces.map((piece) => (
-        <Ingredient key={piece.alt} piece={piece} reduceMotion={reduceMotion} />
-      ))}
+      {ready ? (
+        <>
+          {timedPieces.map((piece) => (
+            <Ingredient key={piece.alt} piece={piece} reduceMotion={reduceMotion} />
+          ))}
 
-      <ShineEffect delay={shineDelay} reduceMotion={reduceMotion} />
-      <SeasoningParticles
-        count={isMobile ? 5 : 9}
-        delay={particlesDelay}
-        reduceMotion={reduceMotion}
-      />
+          <ShineEffect delay={shineDelay} reduceMotion={reduceMotion} />
+          <SeasoningParticles
+            count={isMobile ? 5 : 9}
+            delay={particlesDelay}
+            reduceMotion={reduceMotion}
+          />
+        </>
+      ) : null}
     </motion.div>
   );
 }

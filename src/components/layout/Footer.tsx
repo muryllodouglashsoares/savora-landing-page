@@ -13,19 +13,23 @@ export function Footer() {
           </p>
           <div className="mt-6 flex gap-3">
             {[
-              { icon: Instagram, label: "Instagram" },
-              { icon: Facebook, label: "Facebook" },
-              { icon: MessageCircle, label: "WhatsApp" },
-            ].map(({ icon: Icon, label }) => (
-              <a
-                key={label}
-                href={label === "WhatsApp" ? site.whatsapp : "#"}
-                aria-label={label}
-                className="rounded-full border border-border p-2.5 text-muted-foreground transition-all duration-500 hover:-translate-y-1 hover:border-gold hover:text-gold"
-              >
-                <Icon className="size-4" />
-              </a>
-            ))}
+              { icon: Instagram, label: "Instagram", href: site.social.instagram },
+              { icon: Facebook, label: "Facebook", href: site.social.facebook },
+              { icon: MessageCircle, label: "WhatsApp", href: site.whatsapp },
+            ]
+              .filter((link) => Boolean(link.href))
+              .map(({ icon: Icon, label, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} (abre em nova aba)`}
+                  className="rounded-full border border-border p-2.5 text-muted-foreground transition-all duration-500 hover:-translate-y-1 hover:border-gold hover:text-gold"
+                >
+                  <Icon className="size-4" />
+                </a>
+              ))}
           </div>
         </div>
 

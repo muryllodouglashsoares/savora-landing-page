@@ -21,6 +21,12 @@ interface ReservationForm {
 // text-base (16px) is deliberate, not cosmetic: iOS Safari auto-zooms the
 // whole page on focus for any input rendered under 16px, which would fight
 // the user every time they open a field on mobile.
+const today = () => {
+  const d = new Date();
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
 const fieldClass =
   "w-full rounded-md border border-input bg-background/60 px-4 py-3 text-base outline-none transition-all duration-500 placeholder:text-muted-foreground/70 focus:border-gold focus:bg-background";
 
@@ -99,10 +105,18 @@ export function Reservation() {
               className={`mt-2 ${fieldClass}`}
               placeholder="Como devemos chamá-lo?"
               aria-invalid={!!errors.name}
-              {...register("name", { required: "Informe seu nome" })}
+              aria-describedby={errors.name ? "name-erro" : undefined}
+              autoComplete="name"
+              maxLength={120}
+              {...register("name", {
+                required: "Informe seu nome",
+                validate: (v) => v.trim().length > 1 || "Informe seu nome",
+              })}
             />
             {errors.name ? (
-              <p className="mt-1.5 text-xs text-destructive">{errors.name.message}</p>
+              <p id="name-erro" role="alert" className="mt-1.5 text-xs text-destructive">
+                {errors.name.message}
+              </p>
             ) : null}
           </div>
 
@@ -116,13 +130,18 @@ export function Reservation() {
               className={`mt-2 ${fieldClass}`}
               placeholder="voce@email.com"
               aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-erro" : undefined}
+              autoComplete="email"
+              maxLength={160}
               {...register("email", {
                 required: "Informe seu e-mail",
                 pattern: { value: /\S+@\S+\.\S+/, message: "E-mail inválido" },
               })}
             />
             {errors.email ? (
-              <p className="mt-1.5 text-xs text-destructive">{errors.email.message}</p>
+              <p id="email-erro" role="alert" className="mt-1.5 text-xs text-destructive">
+                {errors.email.message}
+              </p>
             ) : null}
           </div>
 
@@ -136,10 +155,17 @@ export function Reservation() {
               className={`mt-2 ${fieldClass}`}
               placeholder="(11) 90000-0000"
               aria-invalid={!!errors.phone}
-              {...register("phone", { required: "Informe um telefone" })}
+              aria-describedby={errors.phone ? "phone-erro" : undefined}
+              autoComplete="tel"
+              {...register("phone", {
+                required: "Informe um telefone",
+                validate: (v) => v.replace(/\D/g, "").length >= 10 || "Telefone inválido",
+              })}
             />
             {errors.phone ? (
-              <p className="mt-1.5 text-xs text-destructive">{errors.phone.message}</p>
+              <p id="phone-erro" role="alert" className="mt-1.5 text-xs text-destructive">
+                {errors.phone.message}
+              </p>
             ) : null}
           </div>
 
@@ -152,10 +178,17 @@ export function Reservation() {
               type="date"
               className={`mt-2 ${fieldClass}`}
               aria-invalid={!!errors.date}
-              {...register("date", { required: "Escolha a data" })}
+              aria-describedby={errors.date ? "date-erro" : undefined}
+              min={today()}
+              {...register("date", {
+                required: "Escolha a data",
+                validate: (v) => v >= today() || "Escolha uma data a partir de hoje",
+              })}
             />
             {errors.date ? (
-              <p className="mt-1.5 text-xs text-destructive">{errors.date.message}</p>
+              <p id="date-erro" role="alert" className="mt-1.5 text-xs text-destructive">
+                {errors.date.message}
+              </p>
             ) : null}
           </div>
 
@@ -169,10 +202,13 @@ export function Reservation() {
                 type="time"
                 className={`mt-2 ${fieldClass}`}
                 aria-invalid={!!errors.time}
+                aria-describedby={errors.time ? "time-erro" : undefined}
                 {...register("time", { required: "Escolha o horário" })}
               />
               {errors.time ? (
-                <p className="mt-1.5 text-xs text-destructive">{errors.time.message}</p>
+                <p id="time-erro" role="alert" className="mt-1.5 text-xs text-destructive">
+                  {errors.time.message}
+                </p>
               ) : null}
             </div>
             <div>
@@ -196,6 +232,7 @@ export function Reservation() {
             <textarea
               id="notes"
               rows={3}
+              maxLength={500}
               className={`mt-2 resize-none ${fieldClass}`}
               placeholder="Restrições alimentares, comemorações, preferência de mesa…"
               {...register("notes")}
@@ -205,6 +242,7 @@ export function Reservation() {
           <MagneticButton
             type="submit"
             disabled={isSubmitting}
+            aria-busy={isSubmitting}
             className="group mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-gold px-8 py-3.5 text-sm font-medium tracking-wide text-primary-foreground transition-[box-shadow,filter] duration-500 hover:shadow-[0_0_40px_-6px_var(--gold)] hover:brightness-110 disabled:opacity-60 sm:col-span-2"
           >
             <CalendarCheck className="size-4 transition-transform duration-500 group-hover:-rotate-6" />

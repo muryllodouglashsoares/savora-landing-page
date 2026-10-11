@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -39,6 +39,16 @@ export function Navbar() {
   );
 
   useMotionValueEvent(scrollY, "change", (latest) => setScrolled(latest > 40));
+
+  // Fecha o menu móvel com Esc (padrão esperado para menus/disclosures).
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   return (
     <motion.header
@@ -92,7 +102,7 @@ export function Navbar() {
 
         <div className="flex items-center gap-3">
           <a
-            href={`tel:${site.phone.replace(/\D/g, "")}`}
+            href={`tel:+${site.phone.replace(/\D/g, "")}`}
             className="hidden items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-gold md:inline-flex"
           >
             <Phone className="size-4" />
@@ -108,6 +118,7 @@ export function Navbar() {
             type="button"
             aria-label={open ? "Fechar menu" : "Abrir menu"}
             aria-expanded={open}
+            aria-controls="menu-movel"
             onClick={() => setOpen((v) => !v)}
             className="rounded-full border border-border p-2.5 transition-colors hover:border-gold lg:hidden"
           >
@@ -126,7 +137,8 @@ export function Navbar() {
             className="overflow-hidden lg:hidden"
           >
             <ul
-              className={`mx-6 mt-4 space-y-1 rounded-lg border border-border p-4 backdrop-blur-xl ${
+              id="menu-movel"
+              className={`mx-5 mt-4 space-y-1 sm:mx-6 rounded-lg border border-border p-4 backdrop-blur-xl ${
                 scrolled ? "bg-surface/95" : "bg-background/90"
               }`}
             >
